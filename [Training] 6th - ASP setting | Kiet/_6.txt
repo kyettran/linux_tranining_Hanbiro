@@ -1,0 +1,276 @@
+Groupware ASP Server Setting
+
+
+1. OS install (CentOS 6.x 64bit)
+
+Disk configuration & partition info
+
+(1) SSD (System) / 256GB * 2 / raid 1
+
+/boot - 500MB
+
+/ - 30GB
+
+swap - 8GB
+
+/tmp - 10GB
+
+/DATA – Other (xfs)
+
+(2) SATA (home) / 4TB * 6 / raid 1+0
+
+/home - all
+
+(3) SATA (back) / 6TB * 2 / softraid 0
+
+/back - all
+
+
+2. ASP partition setting
+
+
+# vi /etc/fstab
+
+UUID=ebb20268-2be5-42bc-a788-d3ceddd13df4 / ext4 defaults,discard 1 1
+
+UUID=f0bad445-c670-4e2b-ab61-33b659a533ad /boot ext4 defaults,discard 1 2
+
+UUID=fe8e1ac1-ee56-46fd-bcd6-6458585e701f /tmp ext4 defaults,noexec,nosuid,discard,noatime,nodiratime 1 2
+
+UUID=98eab15d-fb13-4530-b6f9-68584590c214 /DATA xfs defaults,discard,noatime,nodiratime,inode64,noquota 0 0
+
+UUID=f4557c62-f668-4ce9-9774-21c1bf54e955 /home xfs defaults,noatime,nodiratime,inode64,noquota 0 0
+
+UUID=64fd6286-98c2-4171-a866-62bf529b1e6e swap swap defaults 0 0
+
+
+3. Groupware Image install
+
+# yum -y install wget
+
+# mkdir -p /home/IMAGE
+
+# cd /home/IMAGE
+# wget --user=hanbiro --ask-password http://222.231.27.132/hanbiro_mrtg/IMAGE/INSTALL.tar.gz
+# tar xvzf INSTALL.tar.gz;rm -fv ./INSTALL.tar.gz
+
+vi ./GWBIGINSTALL.sh
+#############################################################
+VPOPPASS="VPOPPASSWORD" ---> Set following the vpopmail password rule
+
+ROOTPASS="ROOTPASSWORD" ---> Set following the root password rule
+GWDOMAIN="TESTDOMAIN" --> Groupware test domain
+
+GWHOST="TESTHOST" --> Groupware test host
+
+GWUSERCOUNT="10"
+
+IPADDR="xxx.xxx.xxx.xxx" ---> server ip
+
+EMAIL="test@hanbiro.com" --> server rep's mail account
+
+MANAGEID="USERID" ---> server user id
+
+CASSANDRA_HEAP="4G"
+
+ELASTIC_HEAP="12G"
+
+Cassandra_DATA_Partition="home"
+
+Elastic_DATA_Partition="DATA"
+
+Mysql_DATA_Partition="DATA"
+
+Mysql_LOG_Partition="DATA"
+
+#############################################################
+
+
+# sh GWBIGINSTALL.sh
+
+# passwd USERID
+
+# passwd root
+
+# reboot
+
+
+4. ASP file add
+
+# cd /root/Hanbiro/GWS
+
+# touch ASP
+
+
+5. Adaptec SmartRAID Event Monitor install
+
+Followig the process belowed
+
+#skip this step
+https://n.hanbiro.com/ngw/app/#/helpdesk/knowledgebase/view/628
+
+Groupware
+
+ N.HANBIRO.COM
+
+
+6. moffice install
+
+# cd /root/Hanbiro;wget --user=hanbiro --ask-password http://git.winsblack.com/GWS/hanbiroM.tar.gz;tar xvzf hanbiroM.tar.gz;rm -f hanbiroM.tar.gz
+
+# vi /etc/init/moffice.conf (make file - To bring from another ASP)
+
+# vi /root/Hanbiro/hanbiroM/bin/chat_port_add.php
+
+Line 8 : $ip = "xxx.xxx.xxx.xxx";
+
+# vi /root/Hanbiro/hanbiroM/bin/chat_port_del.php
+
+Line 8 : $ip = "xxx.xxx.xxx.xxx";
+
+# moffice operate
+
+stop moffice / start moffice
+
+7. gwmanage.hanbiro.com node install
+
+# cd /usr/local;rm -f ASP_node.tar.gz;wget -N --user=hanbiro --ask-password http://big.hanbiro.net/hanbiro_mrtg/IMAGE/UPDATE/ASP_node.tar.gz;tar xvfz ASP_node.tar.gz;rm -f ASP_node.tar.gz
+
+# /usr/local/node/hanbiro/gwctrl/init.sh start
+
+# ps -ef |grep gwctrl (check)
+
+# Adding vi /etc/rc.local
+
+=================================
+
+# gwmanage.hanbiro.com 57586 port
+
+/usr/local/node/hanbiro/gwctrl/init.sh start
+
+=================================
+
+
+8. QLOG link
+
+# initctl stop svscan
+
+# rsync -av /var/log/qmail/ /DATA/QLOG
+
+# rm -rf /var/log/qmail
+
+# ln -s /DATA/QLOG /var/log/qmail
+
+
+9. moffice logrotate add
+
+# vi /etc/logrotate.d/moffice
+
+/var/log/moffice.log {
+
+copytruncate
+
+daily
+
+rotate 10
+
+nocompress
+
+postrotate
+
+/sbin/reload moffice
+
+endscript
+
+}
+
+
+
+10. backup setting
+
+# vi /root/Hanbiro/bin/dbdump.py
+
+# vi /root/Hanbiro/conf/bigdata_backup.ini
+
+# vi /root/Hanbiro/conf/xxx.xxx.xxx.xxx.ini
+
+
+11. Hbmonitor setting
+
+# vi /root/Hanbiro/conf/Hbmonitor.conf
+
+- >>_loadlimit = 30<<
+
+- >>_dawnloadlimit = 50<<
+
+# /etc/init.d/Hbmonitor stop
+
+# /etc/init.d/Hbmonitor start
+
+
+12. domain add method
+
+# cd /home/HanbiroMailcore
+
+# ./aspsetting.py
+
+org domain: TEST_DOMAIN --> Groupware test domain
+
+hostname: TEST_HOST --> Groupware test host
+
+company name: TEST_COMPANY --> Groupware comapny name
+
+If appear ini file , then :wq import ---> save and quit
+
+# cd /home/HanbiroMailcore/db
+
+# ./syncdb.php -r db-last.dat TEST_HOST --> Groupware test host
+
+# cd /home/HanbiroMailcore/cloud/api
+
+# php tempset.php TEST_HOST --> Groupware test host
+
+# cd /home/HanbiroMailcore/chat2
+
+# ./set.php
+
+input Domain (xxx.com):TEST_DOMAIN --> Groupware test domain
+
+input host (xxx.hanbiro.net):TEST_HOST --> Groupware test host
+
+input company name:TEST_COMPANY --> Groupware comapny name
+
+input Ip Address:xxx.xxx.xxx.xxx --> Server IP
+
+input USER Count: 00 --> Number of Groupware users
+
+input Chat Port (optional): 9999 --> Messenger Port (Option)
+
+dukwon55.hanbiro.net:9610:9611:9612 ---> auto increament port
+
+# cd /home/vpopmail/domains/TEST_DOMAIN
+
+# vi globa.ini ---> global.ini section check
+
+# License Add
+
+# Service Test
+
+
+14. Service test
+
+# groupware web login
+
+# several menu test
+
+# messenger test
+
+# mail send test
+
+# outlook test
+
+
+
+
+
+
