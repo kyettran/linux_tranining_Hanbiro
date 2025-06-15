@@ -1,0 +1,62 @@
+2nd - DNS & mail
+
+1. DNS
++ DNS  Basic
+-  Role of a Name Server
+
+-  DNS Suery Process 
+-  DNS Security
+
++ DNS Practice
+- Default set for named.conf (check the meaning of each option)
+- options {
+listen-on port 53 { 127.0.0.1; 111.111.111.111; };
+listen-on-v6 port 53 { ::1; }; 
+directory "/var/named";
+dump-file "/var/named/data/cache_dump.db";
+statistics-file "/var/named/data/named_stats.txt";
+memstatistics-file "/var/named/data/named_mem_stats.txt";
+allow-query { any; };
+recursion yes;
+allow-recursion { any; };
+
+dnssec-enable yes;
+dnssec-validation yes;
+version "LOCAL DNS";
+
+/* Path to ISC DLV key */
+bindkeys-file "/etc/named.iscdlv.key";
+
+managed-keys-directory "/var/named/dynamic";
+};
+-  DNS set up with bind package
+-  Buy a private domain and configure XEN test server as a name server
+
+
+- https://event.gabia.com/d_event_190201 (shop domain price, 500 korean won) The current shop domain is about 500 won
+-  Create two zone files for a domain
+-  View settings to  allow other zone files to be viewed on certain IP. 
+-  Summary the meaning of each option in the zone file.
+- TTTL value is 600 seconds, but set 10 seconds for the test subdomain .
+
++  Other Practice
+- Purpose of settings long & short TTL values.
+-  How to set if there are more than 2 MX records?
+-  Role of Rndc when configuring Master, Slave and way to rndc sync
+
+2. MAIL
++ Mail server Basics
+- What is mail server?
+- Sending &Receiving Mail Process of(to be done in conjunction with  DNS Query Process)
+- How to create a db file using makemap suah as virtusertable, access, etc.
+- Meaning of each file, virtusertable, access, domaintable, mailertable?
+- . Building a sendmail.cf with the m4 of sendmail.cf and sendmail.mc.
+
++ Mail Server Practice
+-  Building Sendmail  using the domain purchased.
+-  Making the uid and password of the Linux account  into the mail server account using saslauthd.
+-  Allow RELAY for 121.254.171.248 on sendmail
+-  Set sendmail to run witn 0.0.0.0:25 for maile xternal communication
+- Set to send and receive mail via actual account such as Outlook or Thunderbird
+- Capture the test result of mail sending and receiving with large portal using domain hanbirotest@xxx.shop
+- Capture a record of mail sending and receiving on /var/log/maillog
