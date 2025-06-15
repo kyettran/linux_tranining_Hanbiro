@@ -1,0 +1,12 @@
+use test server on local
+1, Qmail
+- complie the qmail source on test server
+- install autorespond
+- research about tcp.smtp
+- research and setting SPF, DKIM
+- explain all function in /var/qmail/control
+2, Vpopmail
+- complie vpopmail
+- connect vpopmail with mysql
+- add users, delete user
+- send email test with vpopmail and qmail
