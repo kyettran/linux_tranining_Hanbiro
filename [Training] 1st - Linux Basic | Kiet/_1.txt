@@ -1,0 +1,112 @@
+Please research and make English document and upload for each part.
+
+1. Linux booting process
+
+- How does the service run on the first booting?
+
+
+2. The role of GRUB (MBR)
+
+- What is MBR
+
+- What is GRUB?
+
+- How to reinstall the GRUB
+
+
+3. Research how to set /etc/fstab, way tofastboot
+
+- Meaning of fstab by item
+
+- Reason of add a discard option for SSD?
+
+- Reason of add noexec, nosuid options for tmp partition?
+
+
+4. Method of Single mode access
+
+- CentOs 6
+
+- CentOs 7
+
+
+5. Logrotate
+
+- syslog.conf setting (meaning by item)
+
+- logrotate.conf setting (meaning by item)
+
+
+6. Xinetd (Superdemon)
+
+- What is a Xinetd Daemon?
+
+- Set up and run ftp and rsync using Xinetd.
+
+
+7. Rsync Practice
+
+- Meaning of rsyncd.conf
+
+ + Data synchronization using rsync 873 port
+
+  - Push rsync data
+
+  - Pull rsync data
+
++ Data synchronization using rsync ssh protocol
+
+  - Push rsync data
+
+  - Pull rsync data
+
+  - Data synchronization with rsync ssh password auto authentication
+
+
+8. tar Compression, decompression, devided compression, Check the list
+
+- Way of tar compression
+
+- Way of decompression the tar
+
+- Way of tar devided compression
+
+- Check list in the single compressed file of tar
+
+
+9. awk, xargs, ps, pstree, sed
+
+- How to use awk
+
+- How to use xargs+ ps
+
+ +ps
+
+ - How to use ps
+
+ - What is the status by the Ps (Z,T,S,R,etc) stat code?
+
+ - How to use the pstree
+
+ - Transforming specific file values using a sed
+
+
+10. System Monitoring
+
+- How to use top
+
+- How to use the sar
+
+- How to use iostat
+
++ uptime
+
+- What is load average?
+
+ - Meaning by item that appears during uptime+ Differentiate CPU usage
+
+ - What does it mean by user, nice, system, iowait, steal, idle?
+
++ Classification memory usage
+
+  - What does it mean of total, used, free , shared, buffers, cached, swap?
