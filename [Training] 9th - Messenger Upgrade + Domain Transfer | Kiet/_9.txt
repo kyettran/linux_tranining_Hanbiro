@@ -1,0 +1,49 @@
+[9th - Messenger Upgrade + Domain Transfer]
+Messenger Upgrade
+
+After installing groupware using the groupware image, chat version is chat2.
+In this training, you need to upgrade from chat -> chat2.
+
+1. Delete Domain
+- Delete the set domain.
+
+# cd /root/Hanbiro/han/GW_script/
+# ./deleteAsp.php DOMAIN HOST
+
+2. Set Domain
+- Recreate the deleted domain.
+  It makes old messengers.
+
+# cd /home/HanbiroMailcore/
+# ./aspsetting.py
+    org domain : DOMAIN
+    hostname : HOST
+    company name : COMPANY NAME
+
+3. Send and receive memo
+- Create two accounts to exchange memo.
+- Send a whisper to each other.
+
+4. Messenger upgrade
+/root/Hanbiro/han/GW_script/messenger_upgrade.sh
+- This is a message upgrade script.
+  Please view this script and perform a manual upgrade and write a report about the work.(Do not run scripts to upgrade.)
+
+5. Messenger test
+- Test Messenger Behavior After Completion.
+  Make sure that you can see the whisper data well.
+
+Notes:
+chat :    /home/HanbiroMailcore/chat/
+chat2:   /home/HanbiroMailcore/chat2/
+
+----------------------------------------------------------
+
+Domain Transfer
+
+Please refer to the attached file for domain transfer
+- Transfer domain to test server
+
+
+
+
