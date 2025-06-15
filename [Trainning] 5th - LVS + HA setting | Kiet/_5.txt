@@ -1,0 +1,43 @@
+[lvm]
+Master : 211.172.244.107
+Standby : 211.172.244.108
+VIP : 211.172.244.110
+
+real1 : 211.172.244.109
+real2 : 211.172.244.108
+
+Server components 1:
+
+1 Server : LVS master
+2 Server : LVS standby
+3 Server : Real Server
+
+Server components 2:
+
+1 Server : LVS master
+2 Server : LVS standby + Real Server1
+ 3 Server : Real Server2
+
+Set up Server components 1 after completion try server components 2 .
+
+1. Set up LVS master-standby . (failover test with heartbeat)
+2. Cennection checking ldirectord and real server
+3. What does each option mean on ldirectord.cf ?
+
+checktimeout=10
+checkinterval=2
+autoreload=no
+logfile="/var/log/ldirectord.log"
+quiescent=no virtual = 211.172.244.110:80
+fallback=127.0.0.1:0 real=211.172.244.109:80 gate 100
+service=http request="hanbiro.lvs"
+receive="hanbiro" scheduler=wrr
+persistent=7200 protocol=tcp
+ checktype=negotiate
+
+4. What is the difference negotiate and connect of checktype options on ldirectord.cf ?
+5. The way of keep sessions alive ?
+6. When is using fwm ?
+7. Find the types of scheduler (such as lc, wlc, rr, wrr, etc..)
+8. set with port 80 and 3306
+The IP server just example, plz use virtual server IP for setting
