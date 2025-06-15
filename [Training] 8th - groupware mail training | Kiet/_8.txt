@@ -1,0 +1,60 @@
+[8th] groupware mail training
+
+1. Recovery of dismiss employee
+
+1) Dismiss your test account. -> on postmaster page
+2) Check the test account to see what has changed on the server.
+3) Recover your test account using a script.
+ex) /root/Hanbiro/han/GW_script/
+./recover_uer.sh  'userid' 'domain'
+4) After recover, log in to your account to check if there is any problem.
+5) Connect to an postmaster account and create new test account.
+6) Delete the new test account you created and recover it.
+7) If it does not recover, explain why.
+
+
+2. Move Mail
+
+1) Connect to an postmaster account and create new test account.
+2) Use the script to move the mail from your test account to your new account.
+ex) /root/Hanbiro/han/GW_script/
+./mailcp.py 'source account' 'target account'
+3) Check where the moved mail was created.
+
+
+3. Mail Backup Recovery
+
+1) Delete all mail in your test account.
+2) Check where the mail data backup is.
+3) Use the script to recover the test account mail for .
+ex) /root/Hanbiro/han/GW_script/
+./var/HMAIL/Core/restoreuser.py 'userid' 'domain' 'mail backup path'
+4) Verify that all mails have been recovered.
+
+
+
+4. Block Spam Mail
+
+Please proceed with this on your groupware test server.
+
+- Block Domains
+1) You are sending an email from your hanbiro mail to your test server account.
+2) You confirm your mail receipt.
+3) Create a bldns file to block hanbiro mail.
+vi /home/vpopmail/domains/XXXXXXX/bldns
+Enter the outgoing mail domain in the bldns file.
+4) You are sending an email from your hanbiro mail to your test server account again.
+5) Check which logs are in the mail log.
+6) Delete the bldns file for the next training.
+
+- Block IP
+1) Create a blip file to block hanbiro mail.
+vi /home/vpopmail/domains/XXXXXXX/blip
+Enter the outgoing IP in the blip file.
+2) You are sending an email from your hanbiro mail to your test server account again.
+3) Check which logs are in the mail log.
+4) Delete the blip file for the next training.
+
+
+
+
