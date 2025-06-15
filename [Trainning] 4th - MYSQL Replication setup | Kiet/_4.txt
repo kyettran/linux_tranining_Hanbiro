@@ -1,0 +1,35 @@
+MySQL-Replication Setup]
+
+Setup with 2 servers
+
+MySQL Version : 5.7
+
+1. Master - Slave Type
+Server1 : Master
+Server2 : Slave
+
+Master : Involve in INSERT/UPDATE/DELETE only.
+Slave : Data entered /changed on the Master server needs be applied to the Slave server (enable select only)
+
+Set the data storage location as below.
+DB data : /home/MYSQLDATA
+DB log : /home/MYSQLLOGS
+
+- Create a configuration manual.
+- Does the data entered on the Master server applied to all to the Slave server?
+- What are the required firewall settings?
+- What are the backup and restore procedures during operating?
+- What are the pros of this configuration?
+- What are the cons of this configuration?
+- What are the precautions for usage?
+
+- Consider which service is suitable with this configuration.
+
+- Although there will be any problem during the test, how can you solve this problem when the log files will keep increasing with the actual service ?
+
+It is based on the exisiting project...
+
+Because MySQL Replication and Dual Master are in the same context, the dual master configuration is condering after completing the replication configuration.
+
+
+You may refer the documents or something like that, write the relevant information. ( 2 test servers are required, 1 existing server and test server. It can also be configured as a DOCKER.)
